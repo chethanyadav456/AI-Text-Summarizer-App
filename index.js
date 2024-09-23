@@ -6,6 +6,7 @@ const app = express();
 const port = 3000;
 
 const summarizeText = require("./summarize.js");
+const imageGen = require("./texttoimage.js");
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
@@ -26,6 +27,20 @@ app.post("/summarize", (req, res) => {
       console.log(error.message);
     });
 });
+
+app.post("/texttoimage", (req, res) => {
+  //it will get the text parameter
+  const text = req.body.text_to_imagegen;
+
+  // here we are calling the imageGen function
+  imageGen(text)
+  .then((response) => {
+    res.send(response);
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+})
 
 // Start the server
 app.listen(port, () => {
